@@ -1,0 +1,9 @@
+#git으로 업로드 하면 안되는 파일 목록
+
+.metadata
+
+*/.settings
+*/bin
+
+.classpath
+.project
