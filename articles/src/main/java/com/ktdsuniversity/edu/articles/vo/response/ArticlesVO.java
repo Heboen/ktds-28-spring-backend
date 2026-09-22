@@ -1,5 +1,15 @@
 package com.ktdsuniversity.edu.articles.vo.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+//@Getter //멤버변수들의 Getter 자동생성
+//@Setter //멤버변수들의 Setter 자동생성
+//@ToString // ToString() 메소드 자동생성
+@Data // 위의 3가지를 한번에 자동생성
+//@NoArgsConstructor // 기본 생성자 자동생성
+//@AllArgsConstructor // 모든 멤버변수를 파라미터로 가지는 생성자 자동생성
 public class ArticlesVO {
 	private String id;
 	private String subject;
@@ -11,85 +21,5 @@ public class ArticlesVO {
 	private String crtDt;
 	private String mdfyDt;
 	private String fileSetId;
-
-	public String getId() {
-		return this.id;
-	}
-
-	public String getSubject() {
-		return this.subject;
-	}
-
-	public String getContent() {
-		return this.content;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public long getViewCnt() {
-		return this.viewCnt;
-	}
-
-	public long getRecommendCnt() {
-		return this.recommendCnt;
-	}
-
-	public String getDelYn() {
-		return this.delYn;
-	}
-
-	public String getCrtDt() {
-		return this.crtDt;
-	}
-
-	public String getMdfyDt() {
-		return this.mdfyDt;
-	}
-
-	public String getFileSetId() {
-		return this.fileSetId;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public void setViewCnt(long viewCnt) {
-		this.viewCnt = viewCnt;
-	}
-
-	public void setRecommendCnt(long recommendCnt) {
-		this.recommendCnt = recommendCnt;
-	}
-
-	public void setDelYn(String delYn) {
-		this.delYn = delYn;
-	}
-
-	public void setCrtDt(String crtDt) {
-		this.crtDt = crtDt;
-	}
-
-	public void setMdfyDt(String mdfyDt) {
-		this.mdfyDt = mdfyDt;
-	}
-
-	public void setFileSetId(String fileSetId) {
-		this.fileSetId = fileSetId;
-	}
 
 }
