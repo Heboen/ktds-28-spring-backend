@@ -1,8 +1,8 @@
 package com.ktdsuniversity.edu.articles.vo.response;
 
-import lombok.AllArgsConstructor;
+import com.ktdsuniversity.edu.files.vo.response.FileSetVO;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 //@Getter //멤버변수들의 Getter 자동생성
 //@Setter //멤버변수들의 Setter 자동생성
@@ -22,4 +22,5 @@ public class ArticlesVO {
 	private String mdfyDt;
 	private String fileSetId;
 
+	private FileSetVO fileSet;
 }

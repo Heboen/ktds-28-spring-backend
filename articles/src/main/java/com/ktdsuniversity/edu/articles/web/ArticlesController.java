@@ -1,5 +1,8 @@
 package com.ktdsuniversity.edu.articles.web;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +55,14 @@ public class ArticlesController {
 	
 	@PostMapping("/articles")
 	@ResponseBody
-	public ApiResponse<ArticlesVO> makeNewArticle(@RequestBody RegistArticleVO registArticleVO) {
+	public ApiResponse<ArticlesVO> makeNewArticle(
+			// Command Object
+			// 클라이언트가 컨트롤러로 전송한 파라미터(폼파라미터, 쿼리스트링파라미터)를 자동으로 받아오는 역할
+			RegistArticleVO registArticleVO
+			// 클라이언트가 컨트롤러로 전송한 파라미터(폼파라미터, 쿼리스트링파라미터)를 하나씩 받아오는 역할
+//			,@RequestParam List<MultipartFile> file
+			) {
+		
 		try {
 		ArticlesVO result = this.articlesService.createNewArticle(registArticleVO);
 		return 	ApiResponse.OK(result);
@@ -63,7 +73,7 @@ public class ArticlesController {
 	
 	@PutMapping("/articles/{articleId}")
 	@ResponseBody
-	public ApiResponse<ArticlesVO> updateArticle(@PathVariable String articleId, @RequestBody ModifyArticleVO modifyArticleVO) {
+	public ApiResponse<ArticlesVO> updateArticle(@PathVariable String articleId, ModifyArticleVO modifyArticleVO) {
 		try {
 		ArticlesVO result = this.articlesService.updateArticle(articleId, modifyArticleVO);
 		return ApiResponse.OK(result);
