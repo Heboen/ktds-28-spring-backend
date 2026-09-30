@@ -1,0 +1,112 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ktdsuniversity.edu.replies.dao.RepliesDao">
+
+	<select id="selectRepliesByArticleId" parameterType="string"
+		resultType="com.ktdsuniversity.edu.replies.vo.response.RepliesVO">
+		SELECT ID
+			 , ARTICLE_ID
+			 , EMAIL
+			 , CONTENT
+			 , RECOMMEND_CNT
+			 , DEL_YN
+			 , CRT_DT
+			 , MDFY_DT
+			 , FILE_SET_ID
+			 FROM REPLIES
+			 WHERE ARTICLE_ID = #{_parameter}
+	           AND DEL_YN = 'N'
+	</select>
+
+	<select id="selectRepliesByReplyId" parameterType="string"
+		resultType="com.ktdsuniversity.edu.replies.vo.response.RepliesVO">
+		SELECT R.ID
+		     , R.ARTICLE_ID
+		     , R.EMAIL
+		     , R.CONTENT
+		     , R.RECOMMEND_CNT
+		     , R.DEL_YN
+		     , R.CRT_DT
+		     , R.MDFY_DT
+		     , F.ID AS FILE_SET_ID
+		     , F.EMAIL AS FILE_UPLOADER
+		     , F.CRT_DT AS FILE_UPLOAD_DATE
+		     , F.MDFY_DT AS FILE_MODIFY_DATE
+		     , F.FILE_ID 
+		     , F.DISPLAY_FILE_NAME 
+		     , F.OBFUSCATE_FILE_NAME 
+		     , F.DOWNLOAD_COUNT 
+		     , F.DEL_YN AS FILE_DEL_YN
+		  FROM REPLIES R
+		  LEFT OUTER JOIN (SELECT FS.ID 
+		                        , FS.EMAIL 
+		                        , TO_CHAR(FS.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') AS CRT_DT 
+		                        , TO_CHAR(FS.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') AS MDFY_DT
+		                        , F.ID AS FILE_ID
+		                        , F.DISPLAY_FILE_NAME 
+		                        , F.OBFUSCATE_FILE_NAME 
+		                        , F.FILE_SIZE 
+		                        , F.DOWNLOAD_COUNT 
+		                        , F.DEL_YN 
+		                     FROM FILE_SET FS
+		                    INNER JOIN FILES F
+		                       ON FS.ID = F.FILE_SET_ID 
+		                     WHERE F.DEL_YN = 'N') F
+		    ON R.FILE_SET_ID = F.ID
+		 WHERE R.ID = #{_parameter}
+		   AND R.DEL_YN = 'N'
+	</select>
+
+	<insert id="insertNewReply">
+
+		<selectKey order="BEFORE" keyProperty="id"
+			resultType="string">
+			SELECT 'RP-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') ||
+			LPAD(SEQ_REPLIES_PK.NEXTVAL, 6, '0')
+			FROM DUAL
+		</selectKey>
+
+		INSERT INTO REPLIES
+			  (ID
+			 , ARTICLE_ID
+			 , EMAIL
+			 , CONTENT
+			 , CRT_DT
+			 , FILE_SET_ID)
+		VALUES
+			 ( #{id}
+			 , #{articleId}
+			 , #{registReplyVO.email}
+			 , #{registReplyVO.content}
+			 , SYSDATE
+			 , #{registReplyVO.fileSetId})
+	</insert>
+	
+	<update id="updateReply">
+	UPDATE REPLIES
+	   SET CONTENT = #{modifyReplyVO.content}
+		 , MDFY_DT = SYSDATE
+		 , FILE_SET_ID = #{modifyReplyVO.fileSetId}
+	 WHERE ID = #{replyId}
+	   AND EMAIL = #{modifyReplyVO.email}
+	   AND DEL_YN = 'N'
+	</update>
+
+	<update id="deleteReply" parameterType="string">
+		UPDATE REPLIES
+		   SET DEL_YN = 'Y'
+			 , MDFY_DT = SYSDATE
+		 WHERE ID = #{_parameter}
+		   AND DEL_YN = 'N'
+	</update>
+	
+	<update id="updateRecommendReply"
+	   parameterType="string">
+	   UPDATE REPLIES
+	      SET RECOMMEND_CNT = RECOMMEND_CNT + 1
+	    WHERE ID = #{_parameter}
+	      AND DEL_YN = 'N'
+	</update>
+</mapper>
