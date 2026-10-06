@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +21,7 @@ import com.ktdsuniversity.edu.articles.vo.response.ArticleListVO;
 import com.ktdsuniversity.edu.articles.vo.response.ArticlesVO;
 import com.ktdsuniversity.edu.commons.util.ApiResponse;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -58,7 +61,9 @@ public class ArticlesController {
 	public ApiResponse<ArticlesVO> makeNewArticle(
 			// Command Object
 			// 클라이언트가 컨트롤러로 전송한 파라미터(폼파라미터, 쿼리스트링파라미터)를 자동으로 받아오는 역할
-			RegistArticleVO registArticleVO
+			@ModelAttribute RegistArticleVO registArticleVO,
+			BindingResult validationResult,
+			HttpSession session
 			// 클라이언트가 컨트롤러로 전송한 파라미터(폼파라미터, 쿼리스트링파라미터)를 하나씩 받아오는 역할
 //			,@RequestParam List<MultipartFile> file
 			) {
