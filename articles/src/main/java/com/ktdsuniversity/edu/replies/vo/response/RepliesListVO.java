@@ -4,16 +4,17 @@ import java.util.List;
 
 import lombok.Data;
 
+
 @Data
 public class RepliesListVO {
 	
 	/**
 	 * 검색된 댓글의 총 갯수
 	 */
-	private long replieCount;
+	private long replyCount;
 	
 	/**
 	 * 검색된 댓글의 목록
 	 */
-	private List<RepliesVO> replieList;
+	private List<RepliesVO> replyList;
 }
