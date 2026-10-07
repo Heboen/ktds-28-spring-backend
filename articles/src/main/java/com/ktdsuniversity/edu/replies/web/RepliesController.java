@@ -35,11 +35,8 @@ public class RepliesController {
 	public ApiResponse<RepliesListVO> getReplies(
 			@Pattern(regexp = "^AR-[0-9]{8}-[0-9]{6,8}$", message="잘못된 요청입니다.") 
 			@PathVariable String articleId) {
-		try {
+
 			return ApiResponse.OK(this.repliesService.readAllRepliesByArticleId(articleId));
-		} catch (IllegalArgumentException iae) {
-			return ApiResponse.FORBIDDEN(iae.getMessage());
-		}
 	}
 	
 	// POST /replies/{게시글아이디}
@@ -59,12 +56,9 @@ public class RepliesController {
 		}
 
 		registRepliesVO.setEmail( membersVO.getEmail() );
-		try {
+
 			RepliesVO result = this.repliesService.createNewReply(articleId, registRepliesVO);
 			return ApiResponse.CREATED(result);
-		}catch(IllegalArgumentException iae) {
-			return ApiResponse.FORBIDDEN(iae.getMessage());
-		}
 		
 	}
 
@@ -77,12 +71,9 @@ public class RepliesController {
 			@PathVariable String replyId,
 			@Valid @ModelAttribute ModifyReplyVO modifyRepliesVO,
 			BindingResult validationResult){
-		try {
+
 			RepliesVO result = this.repliesService.updateReply(articleId, replyId, modifyRepliesVO);
 			return ApiResponse.OK(result);
-		}catch(IllegalArgumentException iae) {
-			return ApiResponse.FORBIDDEN(iae.getMessage());
-		}
 		
 	}
 
@@ -95,12 +86,9 @@ public class RepliesController {
 			@PathVariable String articleId, 
 			@Pattern(regexp = "^RP-[0-9]{8}-[0-9]{6,8}$", message="잘못된 요청입니다.")
 			@PathVariable String replyId){
-		try {
+
 			String result = this.repliesService.deleteReply(articleId, replyId);
 			return ApiResponse.OK(result);
-		}catch(IllegalArgumentException iae) {
-			return ApiResponse.FORBIDDEN(iae.getMessage());
-		}
 	}
 
 	// PUT /replies/{게시글아이디}/recommend/{댓글아이디}
@@ -110,12 +98,9 @@ public class RepliesController {
 			@PathVariable String articleId, 
 			@Pattern(regexp = "^RP-[0-9]{8}-[0-9]{6,8}$", message="잘못된 요청입니다.")
 			@PathVariable String replyId){
-		try {
+
 			Long result = this.repliesService.recommnedOneReply(articleId, replyId);
 			return ApiResponse.OK(result);
-		}catch(IllegalArgumentException iae) {
-			return ApiResponse.FORBIDDEN(iae.getMessage());
-		}
 		
 	}
 
