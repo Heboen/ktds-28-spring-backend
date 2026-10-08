@@ -2,6 +2,7 @@ package com.ktdsuniversity.edu.members.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ktdsuniversity.edu.articles.web.ArticlesController;
 import com.ktdsuniversity.edu.commons.crypto.AES;
 import com.ktdsuniversity.edu.commons.crypto.encrypt.hash.SHA;
 import com.ktdsuniversity.edu.commons.exceptions.ArticleException;
@@ -18,6 +18,8 @@ import com.ktdsuniversity.edu.commons.exceptions.enums.ExceptionType;
 import com.ktdsuniversity.edu.members.dao.MembersDao;
 import com.ktdsuniversity.edu.members.vo.request.LoginMemberVO;
 import com.ktdsuniversity.edu.members.vo.request.RegistMembersVO;
+import com.ktdsuniversity.edu.members.vo.request.SearchMembersVO;
+import com.ktdsuniversity.edu.members.vo.response.MembersListVO;
 import com.ktdsuniversity.edu.members.vo.response.MembersVO;
 
 import lombok.RequiredArgsConstructor;
@@ -177,5 +179,21 @@ public class MembersServiceImpl implements MembersService {
 		}
 		return null;
 	}
+
+	@Override
+	public MembersListVO readAllMembers(SearchMembersVO searchMembersVO) {
+		
+		long count = this.membersDao.selectMembersCount(searchMembersVO);
+		searchMembersVO.calculatePageCount(count);
+		
+		List<MembersVO> memberList = this.membersDao.selectAllMembers(searchMembersVO);
+		
+		MembersListVO list = new MembersListVO();
+		list.setMembersCount(count);
+		list.setMembersList(memberList);
+		return list;
+	}
+	
+	
 	
 }

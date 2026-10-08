@@ -81,7 +81,7 @@ public class ArticlesController {
 	// , @RequestParam List<MultipartFile> file
 	) {
 //		System.out.println(validationResult);
-		
+		logger.debug(validationResult.toString());
 		// Validation 검사를 통과하지 못했다면
 		if (validationResult.hasErrors()) {
 			return ApiResponse.BAD_REQUEST(validationResult.getFieldErrors());

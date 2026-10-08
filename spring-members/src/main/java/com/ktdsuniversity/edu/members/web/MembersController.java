@@ -1,4 +1,4 @@
-package com.ktdsuniversity.edu.members.controller;
+package com.ktdsuniversity.edu.members.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ktdsuniversity.edu.members.service.MembersService;
 import com.ktdsuniversity.edu.members.vo.MembersListVO;
+import com.ktdsuniversity.edu.members.vo.request.SearchMembersVO;
 
 @Controller
 public class MembersController {
@@ -17,10 +18,10 @@ public class MembersController {
 		this.membersService = membersService;
 	}
 
-	@GetMapping("/members")
+	@GetMapping("/members/list")
 	@ResponseBody
-	public MembersListVO getMembers() {
-		return this.membersService.readAllMembers();
+	public MembersListVO getMembers(SearchMembersVO searchMembersVO) {
+		return this.membersService.readAllMembers(searchMembersVO);
 	}
 
 }
